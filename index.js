@@ -11,6 +11,10 @@ var daria = {
 lecturer.on('begin', daria, function () {
     this.focus += 2;
 });
+lecturer.on('begin', daria, function () {
+    this.focus += 2;
+});
+lecturer.emit('begin');
 
 lecturer.on('slide', daria, function () {
     this.wisdom += this.focus * 0.25;

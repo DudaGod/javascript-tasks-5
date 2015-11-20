@@ -36,7 +36,10 @@ module.exports = function () {
                         break;
                     }
                     if (events[eventName[j]].callback !== undefined) {
-                        events[eventName[j]].callback.call(this._students[i]);
+                        events[eventName[j]].callback.forEach(item => {
+                            item.call(this._students[i]);
+                        });
+                        //events[eventName[j]].callback.call(this._students[i]);
                     }
 
                     events = events[eventName[j]];
@@ -70,14 +73,17 @@ module.exports = function () {
                 events = events[name];
             });
 
-            events['callback'] = function () {
+            if (!events.hasOwnProperty('callback')) {
+                events.callback = [];
+            }
+            events.callback.push(function () {
                 if (isNaN(eachCall) && isNaN(maxCalls) ||
                     (!isNaN(eachCall) && currentCall % eachCall === 0) ||
                     (!isNaN(maxCalls) && maxCalls > currentCall)) {
                     callback.call(this);
                 }
                 currentCall++;
-            };
+            });
         }
     };
 };
